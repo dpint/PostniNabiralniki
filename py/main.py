@@ -34,13 +34,13 @@ def objects_convert(input_path):
     return data
 
 
-def json_convert(objects):
-    with io.open("nabiralniki.json", "w", encoding="utf-8") as f:
-        data = json.dumps(objects, default=lambda i: i.__dict__, indent=4, ensure_ascii=False)
+def json_convert(output_path, objects):
+    data = json.dumps(objects, default=lambda i: i.__dict__, indent=4, ensure_ascii=False)
+
+    with io.open(output_path, "w", encoding="utf-8") as f:
         f.write(unicode(data, "utf-8"))
 
 
 if __name__ == '__main__':
     csv_convert("nabiralniki.pdf", "nabiralniki.csv")
-    naslovi = objects_convert("nabiralniki.csv")
-    json_convert(naslovi)
+    json_convert("nabiralniki.json", objects_convert("nabiralniki.csv"))
