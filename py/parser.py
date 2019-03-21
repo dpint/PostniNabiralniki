@@ -1,50 +1,25 @@
-import tabula as tb
-import pandas as pd
 import json as json
 import io as io
+from geocoder import Geocoder
+from pdf_downloader import PdfDownloader
+from pdf import Pdf
 
-import geocoding as geocoding
-
-
-class Naslov:
-    def __init__(self, zaporedna_st, postna_stevilka, naziv_poste, naselje, ulica, hisna_st, dodatek):
-        self.zaporedna_st = zaporedna_st
-        self.postna_stevilka = postna_stevilka
-        self.naziv_poste = naziv_poste
-        self.naselje = naselje
-        self.ulica = ulica
-        self.hisna_st = hisna_st
-        self.dodatek = dodatek
+OUTPUT_FILENAME = "postni_nabiralniki.json"
 
 
-def csv_convert(input_path, output_path):
-    tb.convert_into(input_path, output_path, output_format="csv", pages="all")
+def list_to_json(list):
+    return json.dumps(list, default=lambda i: i.__dict__, indent=4, ensure_ascii=False)
 
 
-def objects_convert(input_path):
-    data = []
-    df = pd.read_csv(input_path)
-
-    for index, row in df.iterrows():
-        if pd.notnull(row[0]) and pd.notnull(row[1]) and pd.notnull(row[2]) \
-                and pd.notnull(row[3]) and pd.notnull(row[5]) and pd.notnull(row[7]):
-            if pd.notnull(row[8]):
-                n = Naslov(row[0], row[1], row[2], row[3], row[5], row[7], row[8])
-            else:
-                n = Naslov(row[0], row[1], row[2], row[3], row[5], row[7], "")
-            data.append(n)
-    return data
-
-
-def json_convert(output_path, objects):
-    data = json.dumps(objects, default=lambda i: i.__dict__, indent=4, ensure_ascii=False)
-
+def write_to_file(output_path, data):
     with io.open(output_path, "w", encoding="utf-8") as f:
         f.write(unicode(data, "utf-8"))
 
 
 if __name__ == '__main__':
-    csv_convert("nabiralniki.pdf", "nabiralniki.csv")
-    objects = objects_convert("nabiralniki.csv")
-    objects = geocoding.add_latlon(objects)
-    json_convert("nabiralniki.json", objects)
+    pdf_file = PdfDownloader.download()
+    pdf = Pdf(pdf_file.name)
+    addresses = pdf.get_addresses()
+    addresses_with_latlon = [[address, Geocoder(address).get_latlon()] for address in addresses]
+    json = list_to_json(addresses_with_latlon)
+    write_to_file(OUTPUT_FILENAME, json)
