@@ -3,6 +3,8 @@ import pandas as pd
 import json as json
 import io as io
 
+import geocoding as geocoding
+
 
 class Naslov:
     def __init__(self, zaporedna_st, postna_stevilka, naziv_poste, naselje, ulica, hisna_st, dodatek):
@@ -43,4 +45,6 @@ def json_convert(output_path, objects):
 
 if __name__ == '__main__':
     csv_convert("nabiralniki.pdf", "nabiralniki.csv")
-    json_convert("nabiralniki.json", objects_convert("nabiralniki.csv"))
+    objects = objects_convert("nabiralniki.csv")
+    objects = geocoding.add_latlon(objects)
+    json_convert("nabiralniki.json", objects)
