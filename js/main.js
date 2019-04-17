@@ -1,11 +1,10 @@
-var mymap = L.map('mapid').setView([46.056946, 14.505751], 13);
+L.mapbox.accessToken = 'pk.eyJ1IjoiZHBpbnQiLCJhIjoiY2p0bXl4djVhMHJ6dTQzcGZ2NWEwN2FtaSJ9.hQcVksyHe0ask5gRp9kyFg';
+var map = L.mapbox.map('map')
+    .setView([46.056946, 14.505751], 13)
+    .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
-}).addTo(mymap);
-
-$.getJSON("py/nabiralniki.json", function(data) {
+/*$.getJSON("py/nabiralniki.json", function(data) {
     $.each(data, function(i, item) {
-        L.marker([data[i].lat, data[i].lon]).addTo(mymap);
+        L.marker([data[i].lat, data[i].lon]).addTo(map);
     });   
-});
+});*/
