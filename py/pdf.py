@@ -11,13 +11,13 @@ class Pdf:
     def get_addresses(self):
         df = pd.read_csv(self.to_csv())
 
-        addresses = []
+        addresses = set()
         for index, row in df.iterrows():
             if pd.notnull(row[0]) and pd.notnull(row[1]) and pd.notnull(row[2]) \
                     and pd.notnull(row[3]) and pd.notnull(row[5]) and pd.notnull(row[7]):
                 address = Address(row[0], "Slovenia", row[1], row[3], row[5],
                                   str(row[7]) + "" if str(row[8]) == "nan" else str(row[8]))
-                addresses.append(address)
+                addresses.add(address)
         return addresses
 
     def to_csv(self):

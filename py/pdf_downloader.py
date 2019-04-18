@@ -1,5 +1,4 @@
 from requests import get
-from io import BytesIO
 import tempfile
 
 
