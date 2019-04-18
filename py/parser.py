@@ -20,6 +20,6 @@ if __name__ == '__main__':
     pdf_file = PdfDownloader.download()
     pdf = Pdf(pdf_file.name)
     addresses = pdf.get_addresses()
-    addresses_with_latlon = [[address, geocoder.mapbox(address).latlng] for address in addresses]
+    addresses_with_latlon = [[address, geocoder.google(address).latlng] for address in addresses]
     json = list_to_json(addresses_with_latlon)
     write_to_file(OUTPUT_FILENAME, json)
