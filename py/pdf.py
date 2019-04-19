@@ -1,5 +1,6 @@
 from address import Address
 import camelot
+from md5checker import checkmd5
 
 
 class Pdf:
@@ -19,3 +20,6 @@ class Pdf:
                 addresses.add(address)
 
         return addresses
+
+    def get_pdf_hash(self):
+        return checkmd5.make_hash(self.pdf_path)

@@ -1,14 +1,14 @@
+# CLI Usage:
+# python3 parser.py <current PDF filepath> <old generated JSON filepath> <new generated JSON filepath>
+
 import json as json
 import io as io
-from pdf_downloader import PdfDownloader
 from pdf import Pdf
 import geocoder
-from md5checker import checkmd5
 from datetime import datetime
 from jsonweb.encode import dumper
 from address import Address
-
-OUTPUT_FILENAME = "postni_nabiralniki.json"
+import sys
 
 
 def write_to_file(output_path, data):
@@ -16,25 +16,32 @@ def write_to_file(output_path, data):
         f.write(data)
 
 
-def get_last_generated_data():
-    with open(OUTPUT_FILENAME) as f:
+def get_json_from_file(filepath):
+    with open(filepath) as f:
         return json.load(f)
 
 
 if __name__ == '__main__':
-    pdf_file = PdfDownloader.download()
-    previous_json = get_last_generated_data()
+    if len(sys.argv) != 3:
+        sys.stderr.write('Argument count is invalid!\n')
+        exit(1)
+
+    current_pdf_filepath = sys.argv[1]
+    old_generated_JSON_filepath = sys.argv[2]
+    new_generated_JSON_filepath = sys.argv[3]
+
+    current_pdf = Pdf(current_pdf_filepath)
+    previous_json = get_json_from_file(old_generated_JSON_filepath)
 
     # Exit if PDF file is the same as the last time.
-    new_pdf_hash = checkmd5.make_hash(pdf_file.name)
+    new_pdf_hash = current_pdf.get_pdf_hash()
     old_pdf_hash = previous_json["referenced_pdf_hash"]
 
     if new_pdf_hash == old_pdf_hash:
         print("PDF file hasn't changed since the last time. Exiting.")
         exit()
 
-    pdf = Pdf(pdf_file.name)
-    new_addresses = pdf.get_addresses()
+    new_addresses = current_pdf.get_addresses()
     old_addresses = {Address(**address) for address in previous_json["addresses"]}
 
     # Google Geocoding calls are pretty expensive, so we don't really want to query every address every time.
@@ -51,7 +58,7 @@ if __name__ == '__main__':
         new_addresses.add(address)
     json_data["addresses"] = list(new_addresses)
 
-    write_to_file(OUTPUT_FILENAME, dumper(json_data))
+    write_to_file(new_generated_JSON_filepath, dumper(json_data))
     print("Removed: ", len(addresses_to_be_removed),
           "Added: ", len(addresses_to_be_added),
           "Number of addresses: ", len(new_addresses))
