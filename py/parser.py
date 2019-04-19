@@ -11,10 +11,6 @@ from address import Address
 OUTPUT_FILENAME = "postni_nabiralniki.json"
 
 
-def list_to_json(list):
-    return json.dumps(list, default=lambda i: i.__dict__, indent=4, ensure_ascii=False)
-
-
 def write_to_file(output_path, data):
     with io.open(output_path, "w", encoding="utf-8") as f:
         f.write(data)
@@ -49,9 +45,6 @@ if __name__ == '__main__':
     json_data = {"generation_time": str(datetime.now()), "referenced_pdf_hash": new_pdf_hash}
     for address in addresses_to_be_added:
         address_latlng = geocoder.google(address).latlng
-        if address_latlng is None:
-            print(address)
-            continue
         address.lat = address_latlng[0]
         address.lng = address_latlng[1]
 
