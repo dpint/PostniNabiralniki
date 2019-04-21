@@ -3,8 +3,12 @@ var map = L.mapbox.map('map')
     .setView([46.056946, 14.505751], 9)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
 
+var markers = L.markerClusterGroup();
+
 $.getJSON("postni_nabiralniki.json", function(data) {
     $.each(data["addresses"], function(i, item) {
-        L.marker([item.lat, item.lng]).addTo(map);
+        markers.addLayer(L.marker([item.lat, item.lng]));
     });   
 });
+
+map.addLayer(markers);
