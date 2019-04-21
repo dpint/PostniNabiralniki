@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
     if new_pdf_hash == old_pdf_hash:
         print("PDF file hasn't changed since the last time. Exiting.")
-        exit()
+        exit(1)
 
     new_addresses = new_pdf.get_addresses()
     old_addresses = {Address(**address) for address in old_json["addresses"]}
