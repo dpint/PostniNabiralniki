@@ -1,7 +1,29 @@
 L.mapbox.accessToken = 'pk.eyJ1IjoiZHBpbnQiLCJhIjoiY2p0bXl4djVhMHJ6dTQzcGZ2NWEwN2FtaSJ9.hQcVksyHe0ask5gRp9kyFg';
+
 var map = L.mapbox.map('map')
     .setView([46.056946, 14.505751], 9)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
+
+var userLocationMarker;
+
+map.locate({setView: true, maxZoom: 16}).on("locationfound", e => {
+    if(!userLocationMarker){
+        userLocationMarker = L.circle(e.latlng, {
+            color: 'red',
+            fillColor: 'red',
+            fillOpacity: 0.5,
+            radius: 20
+        });
+        userLocationMarker.addTo(map);
+    }else{
+        userLocationMarker.setLatLng(e.latlng);
+    }
+}).on("locationerror", error => {
+    if(userLocationMarker){
+        map.removeLayer(userLocationMarker);
+        userLocationMarker = undefined;
+    }
+});
 
 var markers = L.markerClusterGroup();
 
@@ -15,5 +37,4 @@ $.getJSON("postni_nabiralniki.json", function(data) {
         markers.addLayer(marker);
     });   
 });
-
 map.addLayer(markers);
