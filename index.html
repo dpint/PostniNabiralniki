@@ -7,6 +7,8 @@
 
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 
+    <script src="js/main.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
 
     <script src='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'></script>
@@ -15,9 +17,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js" integrity="sha256-WL6HHfYfbFEkZOFdsJQeY7lJG/E5airjvqbznghUzRw=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" />
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
 <body>
-    <div id="map"></div>
+    <div>
+        <div id="map"></div>
+        <div class="leaflet-bottom leaflet-left" style="pointer-events: auto">
+            <button id="locateUser" onclick="locateUser()"><i class="material-icons">my_location</i></img></button>
+        </div>
+    </div>
 </body>
-<script src="js/main.js"></script>
+<script>
+    initMap();
+    displayMarkers();
+</script>
 </html>
