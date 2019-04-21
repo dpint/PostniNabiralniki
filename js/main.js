@@ -7,7 +7,12 @@ var markers = L.markerClusterGroup();
 
 $.getJSON("postni_nabiralniki.json", function(data) {
     $.each(data["addresses"], function(i, item) {
-        markers.addLayer(L.marker([item.lat, item.lng]));
+        var marker = L.marker([item.lat, item.lng])
+        marker.bindPopup("<b>Ulica:</b> " + item.street + " " + item.house_number 
+                            + "<br><b>Kraj:</b> " + item.post_code + " " + item.city 
+                            + "<br><b>Naziv pošte:</b> " + item.post_office 
+                            + "<br><b>ID:</b> " + item.id)
+        markers.addLayer(marker);
     });   
 });
 
