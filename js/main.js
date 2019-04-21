@@ -4,7 +4,7 @@ var map = L.mapbox.map('map')
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
 
 $.getJSON("postni_nabiralniki.json", function(data) {
-    $.each(data, function(i, item) {
+    $.each(data["addresses"], function(i, item) {
         L.marker([item.lat, item.lng]).addTo(map);
     });   
 });
