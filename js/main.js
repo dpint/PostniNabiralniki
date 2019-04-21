@@ -3,8 +3,8 @@ var map = L.mapbox.map('map')
     .setView([46.056946, 14.505751], 9)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
 
-/*$.getJSON("py/nabiralniki.json", function(data) {
+$.getJSON("postni_nabiralniki.json", function(data) {
     $.each(data, function(i, item) {
-        L.marker([data[i].lat, data[i].lon]).addTo(map);
+        L.marker([item.lat, item.lng]).addTo(map);
     });   
-});*/
+});
