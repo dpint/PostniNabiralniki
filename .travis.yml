@@ -1,0 +1,10 @@
+language: python
+python:
+  - "3.6"
+before_install:
+  - cd ./py
+  - wget -O postni_nabiralniki.pdf https://www.posta.si/zasebno-site/Documents/Seznami/Seznam%20po%C5%A1tnih%20nabiralnikov.pdf
+install:
+  - pip install -r py/requirements.txt
+script:
+  - python parser.py postni_nabiralniki.pdf ../postni_nabiralniki.json postni_nabiralniki_new.json
