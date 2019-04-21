@@ -11,7 +11,7 @@ function initMap(){
 function displayMarkers(){
     var markers = L.markerClusterGroup();
 
-    $.getJSON("postni_nabiralniki.json", function(data) {
+    $.getJSON("data/postni_nabiralniki.json", function(data) {
         $.each(data["addresses"], function(i, item) {
             var marker = L.marker([item.lat, item.lng])
             marker.bindPopup("<b>Ulica:</b> " + item.street + " " + item.house_number 
