@@ -15,10 +15,9 @@ class Pdf:
         for table in tables:
             df = table.df
             for index, row in df.iloc[3:].iterrows():
-                address = Address(row[0], "Slovenia", row[1], row[3], row[4],
-                                  str(row[5]) + ("" if str(row[6]) == "nan" else str(row[6])))
+                address = Address(row[0], "Slovenia", row[1], row[2], row[3], row[4],
+                                  str(row[5]).split("\n")[-1] + ("" if str(row[6]) == "nan" else str(row[6])))
                 addresses.add(address)
-
         return addresses
 
     def get_pdf_hash(self):

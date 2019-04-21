@@ -3,18 +3,20 @@ from jsonweb.encode import to_object
 
 @to_object()
 class Address:
-    def __init__(self, id, country, post_code, city, street, house_number, lat=None, lng=None, *args, **kwargs):
+
+    def __init__(self, id, country, post_code, post_office, city, street, house_number, lat=None, lng=None, *args, **kwargs):
         self.id = id
         self.country = country
         self.street = street
         self.post_code = post_code
+        self.post_office = post_office
         self.city = city
         self.house_number = house_number
         self.lat = lat
         self.lng = lng
 
     def __str__(self):
-        return self.country + "," + self.post_code + " " + self.city + "," + self.street + " " + self.house_number
+        return self.country + "," + self.city + "," + self.street + " " + self.house_number
 
     def __hash__(self):
         return hash((self.country, self.street, self.post_code, self.city, self.house_number))
