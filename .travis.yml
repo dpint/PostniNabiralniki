@@ -1,10 +1,16 @@
 language: python
 python:
-  - "3.6"
+- '3.6'
 before_install:
-  - cd ./py
-  - wget -O postni_nabiralniki.pdf https://www.posta.si/zasebno-site/Documents/Seznami/Seznam%20po%C5%A1tnih%20nabiralnikov.pdf
+- wget -O data/postni_nabiralniki.pdf https://www.posta.si/zasebno-site/Documents/Seznami/Seznam%20po%C5%A1tnih%20nabiralnikov.pdf
+- mv data/postni_nabiralniki.json data/postni_nabiralniki_old.json
+addons:
+  apt:
+    packages:
+      - ghostscript
 install:
-  - pip install -r py/requirements.txt
+- pip install -r py/requirements.txt
 script:
-  - python parser.py postni_nabiralniki.pdf ../postni_nabiralniki.json postni_nabiralniki_new.json
+- python py/parser.py data/postni_nabiralniki.pdf data/postni_nabiralniki_old.json data/postni_nabiralniki.json
+after_success:
+- scripts/push_to_git.sh
