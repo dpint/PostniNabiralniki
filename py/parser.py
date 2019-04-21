@@ -52,7 +52,7 @@ if __name__ == '__main__':
     json_data = {"generation_time": str(datetime.now()), "referenced_pdf_hash": new_pdf_hash}
     for address in addresses_to_be_added:
         address_latlng = geocoder.google(address).latlng
-        if address_latlng is not None:
+        if address_latlng is None:
             sys.stderr.write("Geocoder returned empty result for address: " + str(address) + "\n")
             continue
         address.lat = address_latlng[0]

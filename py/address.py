@@ -16,14 +16,15 @@ class Address:
         self.lng = lng
 
     def __str__(self):
-        return self.country + "," + self.city + "," + self.street + " " + self.house_number
+        return self.country + "," + self.post_office + "," + self.city + "," + self.street + " " + self.house_number
 
     def __hash__(self):
-        return hash((self.country, self.street, self.post_code, self.city, self.house_number))
+        return hash((self.country, self.street, self.post_office, self.post_code, self.city, self.house_number))
 
     def __eq__(self, other):
         return self.country == other.country \
                and self.street == other.street \
                and self.post_code == other.post_code \
+               and self.post_office == other.post_office \
                and self.city == other.city \
                and self.house_number == other.house_number
